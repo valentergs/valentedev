@@ -7,5 +7,5 @@ import (
 
 func main() {
 	servidor := servidor.Servidor{}
-	servidor.Inicializar("8080")
+	servidor.Inicializar(":8080")
 }
