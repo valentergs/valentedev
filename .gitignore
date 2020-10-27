@@ -51,4 +51,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# Enviroment Variables
+.env
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,go
