@@ -24,7 +24,7 @@ func (s *Servidor) Rotas() {
 	usuarioCtl := controllers.ControllerUser{}
 	bd := driver.ConnectarBD()
 
-	s.Roteador.HandleFunc("/", controllers.Home)
+	s.Roteador.HandleFunc("/", controllers.Home).Methods("GET")
 	s.Roteador.HandleFunc("/usuarios", usuarioCtl.ChamarUsuarios(bd)).Methods("GET")
 }
 

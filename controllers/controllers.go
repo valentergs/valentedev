@@ -3,6 +3,8 @@ package controllers
 import (
 	"database/sql"
 	"fmt"
+	"html/template"
+	"log"
 	"net/http"
 
 	"github.com/valentergs/valentedev/models"
@@ -21,11 +23,13 @@ func (c ControllerUser) ChamarUsuarios(bd *sql.DB) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, r *http.Request) {
 
+		// É feita o Query para trazer todos os registros da tabela usuários
 		sqlQuery := `SELECT user_id, email, profile FROM users;`
 
 		rows, _ := bd.Query(sqlQuery)
 		defer rows.Close()
 
+		//Criamos uma slice vazia do tipo models.Usuario que será vinculada a uma variavel chamada resultados.
 		resultados := make([]models.Usuario, 0)
 		for rows.Next() {
 			resultado := models.Usuario{}
@@ -38,7 +42,13 @@ func (c ControllerUser) ChamarUsuarios(bd *sql.DB) http.HandlerFunc {
 			resultados = append(resultados, resultado)
 		}
 
-		fmt.Fprint(w, resultados)
+		//Com html/template injetamos dinamicamente a variavel "resultados" dentro do HTML templates/index.html
+		var tpl *template.Template
+		tpl = template.Must(template.ParseGlob("templates/*.html"))
+		err := tpl.ExecuteTemplate(w, "index.html", resultados)
+		if err != nil {
+			log.Fatal(err)
+		}
 
 	}
 
