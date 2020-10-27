@@ -1,7 +1,9 @@
 package models
 
 type Usuario struct {
-	ID      int
-	Email   string
-	Profile string
+	ID        int
+	FirstName string
+	LastName  string
+	Email     string
+	Profile   string
 }

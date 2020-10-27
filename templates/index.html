@@ -3,10 +3,45 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="style.css" /> -->
+    <style>
+      body {
+        font-family: arial, sans-serif;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+    </style>
     <title>valente.dev Blog</title>
   </head>
   <body>
     <h1>Blog - valente.dev</h1>
-    <p>{{.}}</p>
+    <h3>Lista de Usuários</h3>
+    <table>
+      <tr>
+        <th>Nome</th>
+        <th>E-mail</th>
+        <th>Perfil</th>
+      </tr>
+      {{range $value := .}}
+      <tr>
+        <td>{{$value.FirstName}} {{$value.LastName}}</td>
+        <td>{{$value.Email}}</td>
+        <td>{{$value.Profile}}</td>
+      </tr>
+      {{end}}
+    </table>
   </body>
 </html>

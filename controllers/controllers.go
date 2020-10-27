@@ -24,7 +24,7 @@ func (c ControllerUser) ChamarUsuarios(bd *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		// É feita o Query para trazer todos os registros da tabela usuários
-		sqlQuery := `SELECT user_id, email, profile FROM users;`
+		sqlQuery := `SELECT user_id, first_name, last_name, email, profile FROM users;`
 
 		rows, _ := bd.Query(sqlQuery)
 		defer rows.Close()
@@ -33,7 +33,7 @@ func (c ControllerUser) ChamarUsuarios(bd *sql.DB) http.HandlerFunc {
 		resultados := make([]models.Usuario, 0)
 		for rows.Next() {
 			resultado := models.Usuario{}
-			err := rows.Scan(&resultado.ID, &resultado.Email, &resultado.Profile)
+			err := rows.Scan(&resultado.ID, &resultado.FirstName, &resultado.LastName, &resultado.Email, &resultado.Profile)
 			if err != nil {
 				http.Error(w, http.StatusText(500), 500)
 				fmt.Println(err)
