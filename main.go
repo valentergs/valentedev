@@ -42,7 +42,12 @@ func (s *Servidor) ConnectarBD() *sql.DB {
 
 //Rotas é uma engloba todas os URLs e HandleFuncs a serem utilizados
 func (s *Servidor) Rotas() {
+
+	usuarioCtl := ControllerUser{}
+	bd := s.ConnectarBD()
+
 	s.Roteador.HandleFunc("/", Home)
+	s.Roteador.HandleFunc("/usuarios", usuarioCtl.ChamarUsuarios(bd)).Methods("GET")
 }
 
 //Inicializar estabelece um novo Roteador e rotas a serem utilizadas
@@ -70,7 +75,6 @@ func main() {
 
 	servidor := Servidor{}
 	servidor.Inicializar()
-	servidor.ChamarUsuarios()
 	servidor.Rodar("8080")
 
 }
@@ -80,27 +84,38 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Bem-vindo à Home Page!")
 }
 
+type ControllerUser struct{}
+
+type Usuario struct {
+	ID      int
+	Email   string
+	Profile string
+}
+
 //ChamarUsuarios faz uma Query no Banco de Dados
-func (s *Servidor) ChamarUsuarios() *sql.Rows {
-	var (
-		email   string
-		profile string
-	)
-	rows, err := s.ConnectarBD().Query("SELECT email, profile FROM users;")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer rows.Close()
-	for rows.Next() {
-		err := rows.Scan(&email, &profile)
-		if err != nil {
-			log.Fatal(err)
+func (c ControllerUser) ChamarUsuarios(bd *sql.DB) http.HandlerFunc {
+
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		sqlQuery := `SELECT user_id, email, profile FROM users;`
+
+		rows, _ := bd.Query(sqlQuery)
+		defer rows.Close()
+
+		resultados := make([]Usuario, 0)
+		for rows.Next() {
+			resultado := Usuario{}
+			err := rows.Scan(&resultado.ID, &resultado.Email, &resultado.Profile)
+			if err != nil {
+				http.Error(w, http.StatusText(500), 500)
+				fmt.Println(err)
+				return
+			}
+			resultados = append(resultados, resultado)
 		}
-		log.Println(email, profile)
+
+		fmt.Fprint(w, resultados)
+
 	}
-	err = rows.Err()
-	if err != nil {
-		log.Fatal(err)
-	}
-	return rows
+
 }
