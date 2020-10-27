@@ -6,9 +6,6 @@ import (
 )
 
 func main() {
-
 	servidor := servidor.Servidor{}
-	servidor.Inicializar()
-	servidor.Rodar("8080")
-
+	servidor.Inicializar("8080")
 }
