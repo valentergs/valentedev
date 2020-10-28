@@ -32,7 +32,7 @@ func (s *Servidor) Inicializar(endereco string) {
 		ReadTimeout:  15 * time.Second,
 	}
 
-	fmt.Printf("Servindo na porta: %s", endereco)
+	fmt.Printf("Servindo na porta%s\n", endereco)
 	log.Fatal(srv.ListenAndServe())
 }
 
