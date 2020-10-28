@@ -27,7 +27,7 @@ func (s *Servidor) Inicializar(endereco string) {
 
 	srv := &http.Server{
 		Handler:      s.Roteador,
-		Addr:         os.Getenv("BD_HOST") + endereco,
+		Addr:         os.Getenv("APP_PORT") + endereco,
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
