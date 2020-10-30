@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"html/template"
-	"log"
 	"net/http"
 
 	"github.com/valentergs/valentedev/models"
@@ -43,11 +42,17 @@ func (c ControllerUser) ChamarUsuarios(bd *sql.DB) http.HandlerFunc {
 		}
 
 		//Com html/template injetamos dinamicamente a variavel "resultados" dentro do HTML templates/index.html
-		var tpl *template.Template
-		tpl = template.Must(template.ParseGlob("templates/*.html"))
-		err := tpl.ExecuteTemplate(w, "index.html", resultados)
+		// var tpl *template.Template
+		// tpl = template.Must(template.ParseGlob("./templates/*.html"))
+		// err := tpl.ExecuteTemplate(w, "index.html", resultados)
+		// if err != nil {
+		// 	log.Fatal(err)
+		// }
+
+		t := template.Must(template.ParseFiles("templates/index.html"))
+		err := t.ExecuteTemplate(w, "index.html", resultados)
 		if err != nil {
-			log.Fatal(err)
+			panic(err)
 		}
 
 	}
