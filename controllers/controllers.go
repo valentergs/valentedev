@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 
 	"github.com/valentergs/valentedev/models"
 )
@@ -41,6 +42,20 @@ func (c ControllerUser) ChamarUsuarios(bd *sql.DB) http.HandlerFunc {
 			resultados = append(resultados, resultado)
 		}
 
+		//dir := http.FileServer(pkger.Dir("/templates"))
+
+		// 	f, _ := pkger.Open("/templates/index.html")
+		// 	// if err != nil {
+		// 	// 	return err
+		// 	// }
+		// 	defer f.Close()
+
+		// 	f, err := pkger.Open("/public/index.html")
+		// if err != nil {
+		// 	return err
+		// }
+		// defer f.Close()
+
 		//Com html/template injetamos dinamicamente a variavel "resultados" dentro do HTML templates/index.html
 		// var tpl *template.Template
 		// tpl = template.Must(template.ParseGlob("./templates/*.html"))
@@ -49,12 +64,12 @@ func (c ControllerUser) ChamarUsuarios(bd *sql.DB) http.HandlerFunc {
 		// 	log.Fatal(err)
 		// }
 
-		t := template.Must(template.ParseFiles("templates/index.html"))
+		wd, _ := os.Getwd()
+		t := template.Must(template.ParseFiles(wd + "/templates/index.html"))
 		err := t.ExecuteTemplate(w, "index.html", resultados)
 		if err != nil {
 			panic(err)
 		}
-
 	}
 
 }
