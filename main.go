@@ -1,5 +1,7 @@
 package main
 
+//go:generate go run gen/generator.go
+
 import (
 	"fmt"
 	"os"

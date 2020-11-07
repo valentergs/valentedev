@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+package controllers
+
+var EmbedFile = map[string][]byte{
+"./templates/index.html": []byte(`<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -45,3 +48,5 @@
     </table>
   </body>
 </html>
+`),
+}

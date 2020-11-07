@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
-	"os"
 
 	"github.com/valentergs/valentedev/models"
 )
@@ -15,7 +15,7 @@ type ControllerUser struct{}
 
 // Home é a função que será executada na Rota "/"
 func Home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Bem-vindo à Home Page!")
+	fmt.Fprint(w, "Bem-vindo à Home Page, nova!")
 }
 
 //ChamarUsuarios faz uma Query no Banco de Dados
@@ -42,6 +42,12 @@ func (c ControllerUser) ChamarUsuarios(bd *sql.DB) http.HandlerFunc {
 			resultados = append(resultados, resultado)
 		}
 
+		index := string(EmbedFile["./templates/index.html"])
+		t := template.Must(template.New("").Parse(index))
+		if err := t.Execute(w, resultados); err != nil {
+			log.Fatal(err)
+		}
+
 		//dir := http.FileServer(pkger.Dir("/templates"))
 
 		// 	f, _ := pkger.Open("/templates/index.html")
@@ -64,12 +70,6 @@ func (c ControllerUser) ChamarUsuarios(bd *sql.DB) http.HandlerFunc {
 		// 	log.Fatal(err)
 		// }
 
-		wd, _ := os.Getwd()
-		t := template.Must(template.ParseFiles(wd + "/templates/index.html"))
-		err := t.ExecuteTemplate(w, "index.html", resultados)
-		if err != nil {
-			panic(err)
-		}
 	}
 
 }
