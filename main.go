@@ -6,9 +6,16 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"github.com/valentergs/valentedev/servidor"
 )
+
+func init() {
+	if err := godotenv.Load(); err != nil {
+		godotenv.Load(".env_docker")
+	}
+}
 
 func main() {
 	servidor := servidor.Servidor{}

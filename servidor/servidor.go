@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -27,7 +26,7 @@ func (s *Servidor) Inicializar(endereco string) {
 
 	srv := &http.Server{
 		Handler:      s.Roteador,
-		Addr:         os.Getenv("APP_PORT") + endereco,
+		Addr:         endereco,
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}

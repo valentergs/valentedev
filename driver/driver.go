@@ -4,15 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
-
-	"github.com/joho/godotenv"
 )
-
-func init() {
-	if err := godotenv.Load(); err != nil {
-		fmt.Println("arquivo .env náo encontrado")
-	}
-}
 
 //ConnectarBD conecta o programa ao Banco de Dados
 func ConnectarBD() *sql.DB {
