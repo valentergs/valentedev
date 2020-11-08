@@ -16,7 +16,7 @@ type ControllerUser struct{}
 
 // Home é a função que será executada na Rota "/"
 func Home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Bem-vindo à Home Page! Enviroment: %v", os.Getenv("ENV_NAME"))
+	fmt.Fprintf(w, "Bem-vindo à Home Page!\nEnviroment: %v", os.Getenv("ENV_NAME"))
 }
 
 //ChamarUsuarios faz uma Query no Banco de Dados
