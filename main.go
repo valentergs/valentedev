@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"os"
 
+	_ "github.com/jackc/pgx/v4/stdlib"
 	"github.com/joho/godotenv"
-	_ "github.com/lib/pq"
 	"github.com/valentergs/valentedev/servidor"
 )
 
